@@ -1,10 +1,10 @@
 const { Router } = require("express");
 
-const response = require('../../response');
+const response = require('../../network/response');
 
 const router = Router();
 
-router.get( '/message', ( req, res) => {
+router.get( '/', ( req, res) => {
 	res.header(
 		{
 			'custom-header' : "Nuestro valor personalizado"
@@ -14,7 +14,7 @@ router.get( '/message', ( req, res) => {
 	response.success( req, res, 'lista de mensajes');
 });
 
-router.post( '/message', (req, res) => {
+router.post( '/', (req, res) => {
 	if( req.query.error === 'ok') {
 		response.error( req, res, 'Error inesperado', 500);
 	} else {

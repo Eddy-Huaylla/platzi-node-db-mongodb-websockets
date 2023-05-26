@@ -1,15 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const response = require('./response');
-const router = require('./components/message/network');
+const response = require('./network/response');
+const routes = require('./network/routes');
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( { extended : false } ) );
-app.use( router );
+
+routes( app );
 
 app.use('app', express.static('public') );
 
