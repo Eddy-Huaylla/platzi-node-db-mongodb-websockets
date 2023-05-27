@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const response = require('./network/response');
 const routes = require('./network/routes');
 
 const app = express();
@@ -14,6 +13,6 @@ routes( app );
 
 app.use('app', express.static('public') );
 
-app.listen(port);
+app.listen( port );
 
 console.log( 'App listenig in port: http://localhost:' + port );
