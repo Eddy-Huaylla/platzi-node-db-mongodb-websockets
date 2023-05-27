@@ -1,18 +1,18 @@
 const { Router } = require("express");
 
 const response = require('../../network/response');
-const { addMessage } = require("./controller");
+const { addMessage, getMessages } = require("./controller");
 
 const router = Router();
 
 router.get( '/', ( req, res) => {
-	res.header(
-		{
-			'custom-header' : "Nuestro valor personalizado"
-		}
-	);
-
-	response.success( req, res, 'lista de mensajes');
+	getMessages()
+	.then( list => {
+		response.success( req, res, list );
+	})
+	.catch( error => {
+		response.error( req, res, error );
+	});
 });
 
 router.post( '/', (req, res) => {
