@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { initEnv } = require('./utils/environment');
+initEnv();
 
 const routes = require('./network/routes');
 
