@@ -6,7 +6,7 @@ const { addMessage, getMessages, updateMessage } = require("./controller");
 const router = Router();
 
 router.get( '/', ( req, res) => {
-	getMessages()
+	getMessages( req.query.user || null )
 	.then( list => {
 		response.success( req, res, list );
 	})

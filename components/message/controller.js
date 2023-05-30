@@ -1,9 +1,13 @@
 const { add, list, update } = require("./store");
 
-const getMessages = () => {
+const getMessages = ( user ) => {
 	return new Promise( (resolve, reject) => {
 		try {
-			resolve( list() );
+			if( user && user.trim() !== "" ) {
+				user = user.trim();
+			}
+
+			resolve( list( user ) );
 		} catch( error ) {
 			reject( error );
 		}
@@ -13,12 +17,12 @@ const getMessages = () => {
 const addMessage = ( user, message ) => {
 	return new Promise( (resolve, reject) => {
 		try {
-			user = user.trim()
-			message = message.trim()
-
-			if( !user || !message || user === "" || message === "" ) {
+			if( !user || !message || user.trim() === "" || message.trim() === "" ) {
 				reject('Los datos son incorrectos');
 			}
+
+			user = user.trim();
+			message = message.trim();
 
 			const full_message = {
 				user : user,
@@ -38,12 +42,12 @@ const addMessage = ( user, message ) => {
 const updateMessage = ( id, text ) => {
 	return new Promise( async ( resolve, reject ) => {
 		try {
-			id = id.trim();
-			text = text.trim();
-
-			if( !id || !text || id === "" || text === "" ) {
+			if( !id || !text || id.trim() === "" || text.trim() === "" ) {
 				reject( 'Los datos son incorrectos' );
 			}
+
+			id = id.trim();
+			text = text.trim();
 
 			const result = await update( id, text );
 

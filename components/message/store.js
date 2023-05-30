@@ -9,8 +9,10 @@ db.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('[db] Conectada con éxito'))
   .catch(err => console.error('[db]', err));
 
-const list = async () => {
-	const messages = await MessageModel.find();
+const list = async ( user = null ) => {
+	const messages = await MessageModel.find(
+		user !== null ? { 'user' : new RegExp( `^${ user }$`, 'i' ) } : {}
+	);
 
 	return messages;
 }
