@@ -1,7 +1,7 @@
 const { Router } = require("express");
 
 const response = require('../../network/response');
-const { addMessage, getMessages } = require("./controller");
+const { addMessage, getMessages, updateMessage } = require("./controller");
 
 const router = Router();
 
@@ -25,5 +25,16 @@ router.post( '/', (req, res) => {
 		response.error( req, res, error, 500);
 	});
 });
+
+router.patch( '/:id', ( req, res ) => {
+	updateMessage( req.params.id, req.body.message )
+	.then( message => {
+		response.success( req, res, "Mensaje actualizado correctamente con el id: " + message.id );
+	})
+	.catch( error => {
+		console.log( error );
+		response.error( req, res, error, 500);
+	});
+})
 
 module.exports = router;

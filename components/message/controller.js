@@ -1,5 +1,10 @@
-const { add, list } = require("./store");
+const { add, list, update } = require("./store");
 
+const getMessages = () => {
+	return new Promise( (resolve, reject) => {
+		resolve( list() );
+	});
+}
 
 const addMessage = ( user, message ) => {
 	return new Promise( (resolve, reject) => {
@@ -23,13 +28,25 @@ const addMessage = ( user, message ) => {
 	})
 }
 
-const getMessages = () => {
-	return new Promise( (resolve, reject) => {
-		resolve( list() );
-	});
+const updateMessage = ( id, text ) => {
+	return new Promise( async ( resolve, reject ) => {
+
+		id = id.trim();
+		text = text.trim();
+
+		if( !id || !text || id === "" || text === "" ) {
+			reject('Los datos son incorrectos');
+		}
+
+		const result = await update( id, text );
+
+		resolve( result );
+
+	} );
 }
 
 module.exports = {
 	addMessage,
-	getMessages
+	getMessages,
+	updateMessage
 }

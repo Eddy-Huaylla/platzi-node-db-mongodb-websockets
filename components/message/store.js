@@ -9,18 +9,27 @@ db.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('[db] Conectada con éxito'))
   .catch(err => console.error('[db]', err));
 
-const add = ( message ) => {
-	const myMessage = new MessageModel(message);
-	myMessage.save();
-}
-
 const list = async () => {
 	const messages = await MessageModel.find();
 
 	return messages;
 }
 
+const add = ( message ) => {
+	const myMessage = new MessageModel( message );
+	myMessage.save();
+}
+
+const update = async ( id, text ) => {
+	//const message = await MessageModel.findById( id );
+	const message = await MessageModel.findOne( { '_id' : id } );
+	message.message = text;
+
+	return message.save();
+}
+
 module.exports = {
 	add,
-	list
+	list,
+	update
 }
