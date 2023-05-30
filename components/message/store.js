@@ -30,8 +30,16 @@ const update = async ( id, text ) => {
 	return message.save();
 }
 
+const remove = async ( id ) => {
+	// const message = await MessageModel.deleteOne( { '_id' : id } );
+	const message = await MessageModel.findByIdAndDelete( id );
+
+	return message;
+}
+
 module.exports = {
 	add,
 	list,
-	update
+	update,
+	remove
 }

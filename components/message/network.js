@@ -1,7 +1,7 @@
 const { Router } = require("express");
 
 const response = require('../../network/response');
-const { addMessage, getMessages, updateMessage } = require("./controller");
+const { addMessage, getMessages, updateMessage, deleteMessage } = require("./controller");
 
 const router = Router();
 
@@ -35,6 +35,18 @@ router.patch( '/:id', ( req, res ) => {
 		console.log( error );
 		response.error( req, res, error, 500);
 	});
-})
+});
+
+router.delete('/:id', ( req, res ) => {
+	deleteMessage( req.params.id )
+	.then( message => {
+		console.log( message );
+		response.success( req, res, `Mensaje eliminado con el id: ${ message.id } del usuario ${ message.user }.` );
+	})
+	.catch( error => {
+		console.log( error );
+		response.error( req, res, error, 500);
+	})
+}),
 
 module.exports = router;

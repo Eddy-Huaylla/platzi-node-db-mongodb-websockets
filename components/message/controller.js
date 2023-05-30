@@ -1,4 +1,5 @@
-const { add, list, update } = require("./store");
+const { error } = require("../../network/response");
+const { add, list, update, remove } = require("./store");
 
 const getMessages = ( user ) => {
 	return new Promise( (resolve, reject) => {
@@ -58,8 +59,32 @@ const updateMessage = ( id, text ) => {
 	} );
 }
 
+const deleteMessage = ( id ) => {
+	return new Promise( async ( resolve, reject ) => {
+		try {
+			if( !id || id.trim() === "" ) {
+				reject( 'El id es importante.' );
+			}
+
+			id = id.trim();
+
+			const message = await remove( id );
+
+			if( message === null ) {
+				reject( 'El mensaje no existe.' );
+			}
+
+			resolve( message );
+		} catch( error ) {
+			console.error( error );
+			reject( error );
+		}
+	} );
+}
+
 module.exports = {
 	addMessage,
 	getMessages,
-	updateMessage
+	updateMessage,
+	deleteMessage
 }
