@@ -1,9 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { initEnv } = require('./utils/environment');
+const { connect } = require('./utils/db');
+
 initEnv();
 
 const routes = require('./network/routes');
+
+const { DB_URI } = require('./utils/const');
+
+connect( DB_URI );
 
 const app = express();
 const port = 3000;
