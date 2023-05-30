@@ -29,7 +29,7 @@ router.post( '/', (req, res) => {
 router.patch( '/:id', ( req, res ) => {
 	updateMessage( req.params.id, req.body.message )
 	.then( message => {
-		response.success( req, res, "Mensaje actualizado correctamente con el id: " + message.id );
+		response.success( req, res, "Mensaje actualizado correctamente del usuario: " + message.user );
 	})
 	.catch( error => {
 		console.log( error );
