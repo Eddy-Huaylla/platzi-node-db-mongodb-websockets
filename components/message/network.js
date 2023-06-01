@@ -15,8 +15,8 @@ router.get( '/', ( req, res) => {
 	});
 });
 
-router.post( '/', (req, res) => {
-	addMessage( req.body.user, req.body.message )
+router.post( '/', ( req, res ) => {
+	addMessage( req.body.chat, req.body.user, req.body.message )
 	.then( full_message => {
 		response.success( req, res, 'Creado correctamente el mensaje: ' + full_message.message, 201 );
 	})

@@ -14,17 +14,20 @@ const getMessages = ( user ) => {
 	});
 }
 
-const addMessage = ( user, message ) => {
+const addMessage = ( chat, user, message ) => {
 	return new Promise( (resolve, reject) => {
 		try {
-			if( !user || !message || user.trim() === "" || message.trim() === "" ) {
+			if( !user || !message || !chat ||
+				user.trim() === "" || message.trim() === "" || chat.trim() === "" ) {
 				reject('Los datos son incorrectos');
 			}
 
 			user = user.trim();
 			message = message.trim();
+			chat = chat.trim();
 
 			const full_message = {
+				chat : chat,
 				user : user,
 				message: message,
 				date : new Date()
