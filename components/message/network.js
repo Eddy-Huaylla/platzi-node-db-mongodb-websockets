@@ -18,7 +18,7 @@ router.get( '/', ( req, res) => {
 router.post( '/', (req, res) => {
 	addMessage( req.body.user, req.body.message )
 	.then( full_message => {
-		response.success( req, res, 'Creado correctamente el usuario ' + full_message.user, 201 );
+		response.success( req, res, 'Creado correctamente el mensaje: ' + full_message.message, 201 );
 	})
 	.catch( error => {
 		console.log( error );
@@ -29,7 +29,7 @@ router.post( '/', (req, res) => {
 router.patch( '/:id', ( req, res ) => {
 	updateMessage( req.params.id, req.body.message )
 	.then( message => {
-		response.success( req, res, "Mensaje actualizado correctamente del usuario: " + message.user );
+		response.success( req, res, "Mensaje actualizado correctamente del usuario: " + message.user.name );
 	})
 	.catch( error => {
 		console.log( error );
@@ -41,7 +41,7 @@ router.delete('/:id', ( req, res ) => {
 	deleteMessage( req.params.id )
 	.then( message => {
 		console.log( message );
-		response.success( req, res, `Mensaje eliminado con el id: ${ message.id } del usuario ${ message.user }.` );
+		response.success( req, res, `Mensaje eliminado con el id: ${ message.id } del usuario ${ message.user.name }.` );
 	})
 	.catch( error => {
 		console.log( error );

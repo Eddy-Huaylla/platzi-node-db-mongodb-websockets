@@ -1,4 +1,3 @@
-const { error } = require("../../network/response");
 const { add, list, update, remove } = require("./store");
 
 const getMessages = ( user ) => {
