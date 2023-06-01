@@ -1,11 +1,34 @@
 const { Router } = require("express");
+const fs = require('fs');
+const multer = require("multer");
 
 const response = require('../../network/response');
 const { addMessage, getMessages, updateMessage, deleteMessage } = require("./controller");
 
 const router = Router();
 
-router.get( '/', ( req, res) => {
+const createUploadsFolder = () => {
+	const folderPath = 'uploads';
+
+	if (!fs.existsSync(folderPath)) {
+		fs.mkdirSync(folderPath);
+	}
+};
+
+createUploadsFolder();
+
+const storage = multer.diskStorage({
+	destination: ( req, file, cb ) => {
+		cb(null, 'uploads/');
+	},
+	filename: ( req, file, cb) => {
+		cb(null, Date.now() + '-' + file.originalname);
+	}
+});
+
+const upload = multer( { storage: storage } );
+
+router.get( '/', upload.single('file'), ( req, res) => {
 	getMessages( req.query.user || null )
 	.then( list => {
 		response.success( req, res, list );
