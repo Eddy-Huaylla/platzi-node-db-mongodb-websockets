@@ -14,7 +14,7 @@ const getMessages = ( user ) => {
 	});
 }
 
-const addMessage = ( chat, user, message ) => {
+const addMessage = ( chat, user, message, file ) => {
 	return new Promise( (resolve, reject) => {
 		try {
 			if( !user || !message || !chat ||
@@ -25,11 +25,17 @@ const addMessage = ( chat, user, message ) => {
 			user = user.trim();
 			message = message.trim();
 			chat = chat.trim();
+			fileName = '';
+
+			if( file && typeof file === 'object' ) {
+				fileName = global.env.URL + 'app/uploads/' + file.filename;
+			}
 
 			const full_message = {
 				chat : chat,
 				user : user,
 				message: message,
+				file: fileName,
 				date : new Date()
 			}
 

@@ -1,34 +1,18 @@
 const { Router } = require("express");
-const fs = require('fs');
-const multer = require("multer");
 
 const response = require('../../network/response');
 const { addMessage, getMessages, updateMessage, deleteMessage } = require("./controller");
+const { createDirectoryNotExist } = require("../../utils/directory");
+const { saveFile } = require("../../utils/files");
+const { PATH_UPLOAD } = require("../../utils/const");
 
 const router = Router();
 
-const createUploadsFolder = () => {
-	const folderPath = 'uploads';
+createDirectoryNotExist( PATH_UPLOAD )
 
-	if (!fs.existsSync(folderPath)) {
-		fs.mkdirSync(folderPath);
-	}
-};
+const upload = saveFile( PATH_UPLOAD + '/' );
 
-createUploadsFolder();
-
-const storage = multer.diskStorage({
-	destination: ( req, file, cb ) => {
-		cb(null, 'uploads/');
-	},
-	filename: ( req, file, cb) => {
-		cb(null, Date.now() + '-' + file.originalname);
-	}
-});
-
-const upload = multer( { storage: storage } );
-
-router.get( '/', upload.single('file'), ( req, res) => {
+router.get( '/', ( req, res) => {
 	getMessages( req.query.user || null )
 	.then( list => {
 		response.success( req, res, list );
@@ -38,8 +22,8 @@ router.get( '/', upload.single('file'), ( req, res) => {
 	});
 });
 
-router.post( '/', ( req, res ) => {
-	addMessage( req.body.chat, req.body.user, req.body.message )
+router.post( '/', upload.single('file'), ( req, res ) => {
+	addMessage( req.body.chat, req.body.user, req.body.message, req.file )
 	.then( full_message => {
 		response.success( req, res, 'Creado correctamente el mensaje: ' + full_message.message, 201 );
 	})
